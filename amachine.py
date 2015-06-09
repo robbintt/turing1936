@@ -1,5 +1,17 @@
 """
 Generic Turing Machine
+
+This machine needs operations, instructions, and an ingestion loop.
+
+operations:
+    a dictionary of functions that perform defined operations
+    the keys are strings and are stored in the instructions
+
+ingestion loop:
+    a for loop that repeatedly ingests the machine configuration
+    the configuration is available internally so this is just:
+    while True:
+        mymachine.ingest_behavior()
 """
 
 
