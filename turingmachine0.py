@@ -1,13 +1,14 @@
 """
 
 """
-import instructions
+import instructions # Some simple instructions (functions) from Turing 1936.
+import amachine # Generic Turing Machine per Turing 1936.
 
+# Make a turing machine
+turing_machine_0 = amachine.turing_machine()
 
-
-
-# Make a machine
-turing_machine_0 = turing_machine()
+# Set the initial m-configuration
+turing_machine_0.m_config = 'b'
 
 # This doesn't take into account scanned symbol yet.
 # With scanned symbol, the table takes on more complexity.
@@ -25,4 +26,5 @@ turing_machine_0.instructions = {
         'L' : turing_machine_0.scan_to_left
         }
 
+turing_machine_0.ingest_behavior()
 

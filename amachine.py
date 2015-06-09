@@ -74,7 +74,7 @@ class turing_machine(object):
         self.scanned_symbol = ""
 
 
-    def scan_to_right():
+    def scan_to_right(self):
         """
         """
         # Store current scanned symbol on the other tape.
@@ -87,7 +87,7 @@ class turing_machine(object):
             self.scanned_symbol = ""
 
 
-    def scan_to_left():
+    def scan_to_left(self):
         """
         """
         # Store current scanned symbol on the other tape.
@@ -100,21 +100,23 @@ class turing_machine(object):
             self.scanned_symbol = ""
 
 
-    def ingest_behavior(configuration):
+    def ingest_behavior(self):
         """ Process the current configuration's operations.
         """
+        configuration = self.operations[self.m_config]
+
         # Reverse operations so the last operation has the index 0.
         # This allows us to pop() the last off efficiently.
-        operations = list(reversed(onfiguration[0]))
-        next_mconfig = configuration[1]
+        operations = list(reversed(configuration[0]))
+        next_m_config = configuration[1]
 
         # Chew up the list of operations until it is empty.
         while len(operations):
-            operations.pop() # the list was reversed at the top of this method.
+            current_operation = operations.pop() # the list was reversed at the top of this method.
 
             # Apply the function corresponding to the operation
-            if operations[0] in self.instructions.keys():
-                self.instructions[operations[0]]()
+            if current_operation in self.instructions.keys():
+                self.instructions[current_operation]()
 
         # set the new m-configuration
         self.m_config = next_m_config
