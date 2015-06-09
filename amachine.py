@@ -78,8 +78,10 @@ class turing_machine(object):
         self.right_tape = list()
         self.scanned_symbol = " "
 
+        self._print_symbol = ""
 
-    def scan_to_right(self):
+
+    def scan_to_right(self, *args, **kwargs):
         """
         """
         # Store current scanned symbol on the other tape.
@@ -91,8 +93,7 @@ class turing_machine(object):
             # If the list is empty, generate an empty space.
             self.scanned_symbol = " "
 
-
-    def scan_to_left(self):
+    def scan_to_left(self, *args, **kwargs):
         """
         """
         # Store current scanned symbol on the other tape.
@@ -103,6 +104,14 @@ class turing_machine(object):
         except IndexError:
             # If the list is empty, generate an empty space.
             self.scanned_symbol = " "
+
+    def _print(self, *args, **kwargs):
+        """ Print the instruction_symbol onto the scanned square.
+        """
+
+        # The last letter of the print symbol. This function only receives strings.
+        self.scanned_symbol = args[0][-1]
+        print self.scanned_symbol
 
 
     def ingest_behavior(self):
@@ -125,7 +134,7 @@ class turing_machine(object):
 
             # Apply the function corresponding to the operation
             if current_operation in self.instructions.keys():
-                self.instructions[current_operation]()
+                self.instructions[current_operation](current_operation)
 
         # set the new m-configuration
         self.m_config = next_m_config
