@@ -1,6 +1,6 @@
 """
+Generic Turing Machine
 """
-import instructions
 
 
 class turing_machine(object):
@@ -103,33 +103,19 @@ class turing_machine(object):
     def ingest_behavior(configuration):
         """ Process the current configuration's operations.
         """
-        operations = configuration[0]
-        next_mconfiguration = configuration[1]
+        # Reverse operations so the last operation has the index 0.
+        # This allows us to pop() the last off efficiently.
+        operations = list(reversed(onfiguration[0]))
+        next_mconfig = configuration[1]
 
-        # Chew up the string
+        # Chew up the list of operations until it is empty.
         while len(operations):
-            operations.pop(0) # inefficient, O(n), fix later
+            operations.pop() # the list was reversed at the top of this method.
+
             # Apply the function corresponding to the operation
-            apply_operation[operations[0]]()
+            if operations[0] in self.instructions.keys():
+                self.instructions[operations[0]]()
 
-
-# Make a machine
-turing_machine_0 = turing_machine()
-
-# This doesn't take into account scanned symbol yet.
-# With scanned symbol, the table takes on more complexity.
-turing_machine_0.operations = {
-        'b' : (['P0','R'],'c'),
-        'c' : ('R','e'), 
-        'e' : (['P1','R'],'f'),
-        'f' : ('R','b')
-        }
-
-turing_machine_0.instructions = {
-        'P0' : instructions.print_zero,
-        'P1' : instructions.print_one,
-        'R' : turing_machine_0.scan_to_right,
-        'L' : turing_machine_0.scan_to_left
-        }
-
-
+        # set the new m-configuration
+        self.m_config = next_m_config
+        return
