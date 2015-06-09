@@ -45,20 +45,11 @@ class turing_machine(object):
     The machine may erase the scanned symbol.
     The machine may write a symbol on the scanned square, if empty.
 
-
-
-
-
-    As a result: 
-            we will refer to the scanned symbol once per cycle.
-            we will refer to the m-configuration once per cycle.
-
-    How should a tape be qualified?
+    How should a tape be qualified? (i chose option 2)
     1. It could be a list with an index stored as the 'scanned square'
     2. It could be a variable which is popped off left and onto right. This approach requires maintaining two strings, one of which increases to the left, one of which increases to the right.
-    3. 
-
-    Turing's Configuration specifies a sequential list of instructions and the next m-configuration.
+    
+    Each configuration needs a sequential list of instructions and the next m-configuration.
 
     How should Configuration instructions be managed?
     1. Configuration is a sequential list of actions finally providing the next state.
@@ -73,6 +64,8 @@ class turing_machine(object):
         """
         This class is a general representation of a turing machine.
         m-configuration and operations must be defined outside this class.
+
+        Note that the empty symbol is a space in this implementation.
         """
         self.m_config = ""
         self.operations = {}
@@ -81,9 +74,9 @@ class turing_machine(object):
         # sides of the tape. The ordinality of the tape is defined as such:
         # tape[i] can be popped or appended. The last item is always the closest to the scanner.
         # This is a complete description because the tape has only one reference. The scanner.
-        self.left_tape = list("")
-        self.right_tape = list("")
-        self.scanned_symbol = ""
+        self.left_tape = list()
+        self.right_tape = list()
+        self.scanned_symbol = " "
 
 
     def scan_to_right(self):
@@ -96,7 +89,7 @@ class turing_machine(object):
             self.scanned_symbol = self.right_tape.pop()
         except IndexError:
             # If the list is empty, generate an empty space.
-            self.scanned_symbol = ""
+            self.scanned_symbol = " "
 
 
     def scan_to_left(self):
@@ -109,13 +102,17 @@ class turing_machine(object):
             self.scanned_symbol = self.left_tape.pop()
         except IndexError:
             # If the list is empty, generate an empty space.
-            self.scanned_symbol = ""
+            self.scanned_symbol = " "
 
 
     def ingest_behavior(self):
         """ Process the current configuration's operations.
         """
-        configuration = self.operations[self.m_config]
+        # Try to use the any configuration and use the scanned_symbol if it doesn't exist.
+        try:
+            configuration = self.operations[self.m_config]['any']
+        except KeyError:
+            configuration = self.operations[self.m_config][self.scanned_symbol]
 
         # Reverse operations so the last operation has the index 0.
         # This allows us to pop() the last off efficiently.

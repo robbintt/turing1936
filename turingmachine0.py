@@ -10,14 +10,22 @@ turing_machine_0 = amachine.turing_machine()
 # Set the initial m-configuration
 turing_machine_0.m_config = 'b'
 
-# This doesn't take into account scanned symbol yet.
-# With scanned symbol, the table takes on more complexity.
+# A single space represents an empty square.
+# An any string, 'any', represents 'any square'
 turing_machine_0.operations = {
-        'b' : (['P0','R'],'c'),
-        'c' : ('R','e'), 
-        'e' : (['P1','R'],'f'),
-        'f' : ('R','b')
+        'b' : {
+            ' ' : (['P0','R'],'c')
+        },
+        'c' : {
+            ' ' : ('R','e'), 
+        },
+        'e' : {
+            ' ' : (['P1','R'],'f'),
+        },
+        'f' : {
+            ' ' : ('R','b')
         }
+    }
 
 turing_machine_0.instructions = {
         'P0' : instructions.print_zero,
