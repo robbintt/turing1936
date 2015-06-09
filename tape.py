@@ -1,6 +1,6 @@
 """
 """
-import .instructions
+import instructions
 
 
 class turing_machine(object):
@@ -118,18 +118,18 @@ turing_machine_0 = turing_machine()
 
 # This doesn't take into account scanned symbol yet.
 # With scanned symbol, the table takes on more complexity.
-turingmachine_0.operations = {
+turing_machine_0.operations = {
         'b' : (['P0','R'],'c'),
         'c' : ('R','e'), 
         'e' : (['P1','R'],'f'),
         'f' : ('R','b')
         }
 
-turingmachine_0.instructions = {
-        'P0' : , .instructions.print_zero()
-        'P1' : , .instructions.print_one()
-        'R' : , self.scan_to_right()
-        'L' : , self.scan_to_left()
+turing_machine_0.instructions = {
+        'P0' : instructions.print_zero,
+        'P1' : instructions.print_one,
+        'R' : turing_machine_0.scan_to_right,
+        'L' : turing_machine_0.scan_to_left
         }
 
 
