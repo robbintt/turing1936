@@ -26,5 +26,7 @@ turing_machine_0.instructions = {
         'L' : turing_machine_0.scan_to_left
         }
 
-turing_machine_0.ingest_behavior()
+# The turing machine just keeps going unless a stop operation is defined.
+while True:
+    turing_machine_0.ingest_behavior()
 
