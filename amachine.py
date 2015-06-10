@@ -13,6 +13,9 @@ ingestion loop:
     while True:
         mymachine.ingest_behavior()
 """
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class turing_machine(object):
@@ -111,20 +114,38 @@ class turing_machine(object):
 
         # The last letter of the print symbol. This function only receives strings.
         self.scanned_symbol = args[0][-1]
-        print self.scanned_symbol
+        logging.debug("Print to tape:" + self.scanned_symbol)
 
 
     def ingest_behavior(self):
         """ Process the current configuration's operations.
+
+        Ingestion symbol prioritization:
+        ' ' is empty, and is ingested if it is set.
+        'any' matches all other symbols. It is ingested if it exists.
+        Finally, the specific symbol is matched.
+        An error is thrown if the symbol isn't in the table.
         """
-        # Try to use the any configuration and use the scanned_symbol if it doesn't exist.
-        try:
-            configuration = self.operations[self.m_config]['any']
-        except KeyError:
-            configuration = self.operations[self.m_config][self.scanned_symbol]
+
+        if self.scanned_symbol == ' ':
+            try:
+                configuration = self.operations[self.m_config][' ']
+            except KeyError:
+                logging.critical("Unspecified Configuration: {} {}".format(self.m_config, self.scanned_symbol))
+        else:
+            try:
+                configuration = self.operations[self.m_config]['any']
+            except KeyError:
+                pass # any is not required
+
+            try:
+                configuration = self.operations[self.m_config][self.scanned_symbol]
+            except KeyError:
+                logging.critical("Unspecified Configuration: {} {}".format(self.m_config, self.scanned_symbol))
+
 
         # Reverse operations so the last operation has the index 0.
-        # This allows us to pop() the last off efficiently.
+        # This allows us to pop() the last off in O(1) time.
         operations = list(reversed(configuration[0]))
         next_m_config = configuration[1]
 
