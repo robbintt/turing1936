@@ -5,6 +5,7 @@ Simplifies the first machine by allowing multiple L and R actions in a single en
 """
 import instructions # Some simple instructions (functions) from Turing 1936.
 import amachine # Generic Turing Machine per Turing 1936.
+import time # used for the clock in the while loop (see bottom)
 
 # Make a turing machine
 turing_machine = amachine.turing_machine()
@@ -31,5 +32,6 @@ turing_machine.instructions = {
 
 # The turing machine just keeps going unless a stop operation is defined.
 while True:
+    time.sleep(0.25)
     turing_machine.ingest_behavior()
 
